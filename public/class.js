@@ -43,9 +43,6 @@ class Grass {
 
 }
 
-
-
-
 class grassEater {
     constructor(x, y) {
         this.x = x;
@@ -362,6 +359,7 @@ class human{
     		this.count = 0;
     	}
     }
+
 }
 
 class fire{
@@ -481,5 +479,6 @@ class fire{
         }
         this.count++;  
     }
+
 }
 
