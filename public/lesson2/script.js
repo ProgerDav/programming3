@@ -67,7 +67,7 @@ for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slo
 	[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 ]*/
 
-var matrix = [    //hrdehi u mardu stugum -- mard@ shajvum e utum e ir mot ekac kam unkyunagci vrayi gishatichin ev varum e xoter@
+/*var matrix = [    //hrdehi u mardu stugum -- mard@ shajvum e utum e ir mot ekac kam unkyunagci vrayi gishatichin ev varum e xoter@
 	[3, 1, 1, 1, 3, 3, 1, 1, 0, 0, 3, 0, 0, 0, 0, 0, 1], //cankali e gishatichnerin anmah darcnel, tox mardy nranc uti
 	[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
 	[3, 1, 1, 1, 1, 3, 0, 1, 0, 0, 0, 0, 3, 0, 1, 0, 0],
@@ -75,7 +75,7 @@ var matrix = [    //hrdehi u mardu stugum -- mard@ shajvum e utum e ir mot ekac 
 	[0, 1, 1, 1, 7, 1, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0],
 	[3, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 3, 0, 0, 0],
 	[3, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 3, 0, 0, 0],
-]
+]*/
 
 
 
@@ -149,7 +149,7 @@ function draw() {
     }
     //console.log(grassArray.length);
 
-    //humanArray[0].move();
+    humanArray[0].move();
 
     for (var j in predatorArray) {
         predatorArray[j].moveAndEat();

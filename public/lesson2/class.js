@@ -62,15 +62,29 @@ class Creature {
     }
 
     death() {
-        if (this.energy <= 0) {
-            for (var i = 0; i < grassEaterArray.length; i++) {
-                if (grassEaterArray[i].x == this.x && grassEaterArray[i].y == this.y) {
-                    grassEaterArray.splice(i, 1);
-                    break;
-                }
-            }
-            matrix[this.y][this.x] = 0;
-        }
-        this.energy--;
-    }
+		if(this.index == 2){
+			if (this.energy <= 0) {
+				for (var i = 0; i < grassEaterArray.length; i++) {
+					if (grassEaterArray[i].x == this.x && grassEaterArray[i].y == this.y) {
+						grassEaterArray.splice(i, 1);
+						break;
+					}
+				}
+				matrix[this.y][this.x] = 0;
+			}
+			this.energy--;
+		}
+		else if(this.index == 3){
+			if (this.energy <= 0) {
+				for (var i = 0; i < predatorArray.length; i++) {
+					if (predatorArray[i].x == this.x && predatorArray[i].y == this.y) {
+						predatorArray.splice(i, 1);
+						break;
+					}
+				}
+				matrix[this.y][this.x] = 0;
+			}
+			this.energy--;
+		}
+	}
 }   
