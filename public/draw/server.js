@@ -17,4 +17,9 @@ io.on('connection', function (socket) {
 	   imageSource = data;
        io.sockets.emit("display image", data);
    })
+   socket.on("delete image", function() {
+       imageSource = '';
+       io.sockets.emit("display image", imageSource);
+       io.sockets.emit("delete images user-side");
+   })
 });

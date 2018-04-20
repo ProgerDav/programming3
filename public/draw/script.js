@@ -26,6 +26,11 @@
 			context.drawImage(canvasImage, 0, 0, 800, 600);
 		}
 		socket.on("display image", handleCanvas);
+		buttonDel.onclick = clearCanvas;		
+		function clearCanvas(){
+			socket.emit("delete image");
+			background('#acacac');
+		}
 	}  
 	function mouseDragged() {
 	    ellipse(mouseX, mouseY, pencil_width, pencil_width);
