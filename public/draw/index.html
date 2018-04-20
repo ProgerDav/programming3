@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Document</title>
+   <script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.0/p5.min.js'></script>
+   <script src="/socket.io/socket.io.js"></script>
+   <script src="script.js"></script>
+   <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   
+       <br>
+	   <input type="range" min=1 max=50 id='pencilWidth' value=25 oninput='getWidth()' />	
+       <button id="submit">Submit</button>
+       <button id="del">Delete All</button>
+	   <img id='canvasImage' />
+</body>
+</html>
