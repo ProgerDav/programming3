@@ -4,6 +4,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var fs = require("fs");
 var imageSource;
+var cords = [];
 
 app.use(express.static("."));
 app.get('/', function (req, res) {
@@ -20,6 +21,12 @@ io.on('connection', function (socket) {
    socket.on("delete image", function() {
        imageSource = '';
        io.sockets.emit("display image", imageSource);
+       io.sockets.emit("delete images user-side");
+   })
+   
+   socket.on("coords", function(data) {
+       cords.push(data);
+       io.sockets.emit("draw circle", data);
        io.sockets.emit("delete images user-side");
    })
 });

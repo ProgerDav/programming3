@@ -68,7 +68,7 @@ class Creature{
 				}
 				matrix[this.y][this.x] = 0;
 			}
-			else if(this.index == 2){
+			else if(this.index == 3){
 				for (var i = 0; i < predatorArray.length; i++) {
 					if (predatorArray[i].x == this.x && predatorArray[i].y == this.y) {
 						predatorArray.splice(i, 1);

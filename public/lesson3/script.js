@@ -37,7 +37,7 @@ for (var j = 0; j < greenEaterNumber; j++) {            //fill with 2 => yellow 
         continue;
     }
 }
-
+/*
 for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slot
     var x = Math.floor(Math.random() * matrix[0].length);
     var y = Math.floor(Math.random() * matrix.length);
@@ -49,7 +49,7 @@ for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slo
         continue;
     }
 }
-
+*/
 /*var matrix = [    //xoter@ stugox matric -- piti bazmanan
 	[1, 0, 0, 0, 1, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0],
@@ -148,9 +148,9 @@ function draw() {
         fireArray[0].spread();
     }
     //console.log(grassArray.length);
-
-    humanArray[0].move();
-
+    if(humanArray[0]){
+        humanArray[0].move();
+    }
     for (var j in predatorArray) {
         predatorArray[j].moveAndEat();
     }

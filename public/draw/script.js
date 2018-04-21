@@ -26,6 +26,12 @@
 			context.drawImage(canvasImage, 0, 0, 800, 600);
 		}
 		socket.on("display image", handleCanvas);
+		
+		function drawCircle(data){
+			ellipse(data[0], data[1], data[2], data[3]);
+		}
+
+		socket.on("draw circle", drawCircle);
 		buttonDel.onclick = clearCanvas;		
 		function clearCanvas(){
 			socket.emit("delete image");
@@ -33,8 +39,10 @@
 		}
 	}  
 	function mouseDragged() {
-	    ellipse(mouseX, mouseY, pencil_width, pencil_width);
+	    //ellipse(mouseX, mouseY, pencil_width, pencil_width);
 	   // return false;
+
+	   socket.emit("coords", [mouseX, mouseY, pencil_width, pencil_width]);
 	}
 	
 	function getWidth(){
