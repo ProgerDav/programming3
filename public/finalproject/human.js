@@ -1,4 +1,5 @@
-class human{
+var fire = require("./fire.js");
+module.exports = class human{
     constructor(x, y){
     	this.x = x;
     	this.y = y;

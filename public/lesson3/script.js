@@ -7,7 +7,7 @@ var greenNumber = parseInt(n * m * percent1 / 100);
 var greenEaterNumber = parseInt(n * m * percent2 / 100);
 var humanNumber = 1;
 var matrix = [];
-for (var i = 0; i < n; i++) { //create empty zangvac
+for (var i = 0; i < n; i++) { //create empty array
     var arr = [];
     for (var j = 0; j < m; j++) {
         arr[j] = 0;
@@ -37,7 +37,7 @@ for (var j = 0; j < greenEaterNumber; j++) {            //fill with 2 => yellow 
         continue;
     }
 }
-/*
+
 for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slot
     var x = Math.floor(Math.random() * matrix[0].length);
     var y = Math.floor(Math.random() * matrix.length);
@@ -49,7 +49,6 @@ for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slo
         continue;
     }
 }
-*/
 /*var matrix = [    //xoter@ stugox matric -- piti bazmanan
 	[1, 0, 0, 0, 1, 0, 0, 0],
 	[0, 0, 0, 0, 0, 0, 0, 0],
@@ -88,7 +87,7 @@ var fireArray = [];
 
 function setup() {
     frameRate(4);
-    //noStroke();
+    noStroke();
     createCanvas(matrix[0].length * side, matrix.length * side);
     background('#acacac');
     for (var y = 0; y < matrix.length; y++) {

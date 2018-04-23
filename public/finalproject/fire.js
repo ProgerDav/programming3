@@ -1,4 +1,4 @@
-class fire{
+module.exports = class fire{
     constructor(x, y){
         this.x = x;
         this.y = y;
@@ -105,7 +105,7 @@ class fire{
                 
             }
         }
-        else if(this.count >= 3){     // clean the area with fire at the end
+        else if(this.count >= 5){     // clean the area with fire at the end
             for(var e in this.toRemove){
                 var slot = this.toRemove[e];
                 matrix[slot[1]][slot[0]] = 0;
