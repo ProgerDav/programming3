@@ -19,34 +19,34 @@ module.exports = class fire{
     	if(this.count == 1){
 	    	for(var i in this.directions){
 	    		var slot = this.directions[i];
-                if(matrix[slot[1]]){
-                    if(matrix[slot[1]][slot[0]] != undefined){
+                if(global.matrix[slot[1]]){
+                    if(global.matrix[slot[1]][slot[0]] != undefined){
                         this.toRemove.push(slot);   // add slot to an array
-                        if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
-                            for(var i = 0; i < grassArray.length; i++) {
-                               if(slot[0] == grassArray[i].x && slot[1] == grassArray[i].y) {
-                                 grassArray.splice(i, 1);
+                        if(global.matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
+                            for(var i = 0; i < global.grassArray.length; i++) {
+                               if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                                 global.grassArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                        else if(matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
-                            for(var i = 0; i < grassEaterArray.length; i++) {
-                               if(slot[0] == grassEaterArray[i].x && slot[1] == grassEaterArray[i].y) {
-                                 grassEaterArray.splice(i, 1);
+                        else if(global.matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
+                            for(var i = 0; i < global.grassEaterArray.length; i++) {
+                               if(slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
+                                 global.grassEaterArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                        else if(matrix[slot[1]][slot[0]] == 3){    // is predator -- remove
-                            for(var i = 0; i < predatorArray.length; i++) {
-                               if(slot[0] == predatorArray[i].x && slot[1] == predatorArray[i].y) {
-                                 predatorArray.splice(i, 1);
+                        else if(global.matrix[slot[1]][slot[0]] == 3){    // is predator -- remove
+                            for(var i = 0; i < global.predatorArray.length; i++) {
+                               if(slot[0] == global.predatorArray[i].x && slot[1] == global.predatorArray[i].y) {
+                                 global.predatorArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                    matrix[slot[1]][slot[0]] = 4;
+                    global.matrix[slot[1]][slot[0]] = 4;
                     }
                 }
 	    	}
@@ -72,34 +72,34 @@ module.exports = class fire{
             ];
             for(var i in this.directions){
                 var slot = this.directions[i];
-                if(matrix[slot[1]]){
-                    if(matrix[slot[1]][slot[0]] != undefined){
+                if(global.matrix[slot[1]]){
+                    if(global.matrix[slot[1]][slot[0]] != undefined){
                         this.toRemove.push(slot);  // add slot to the toRemove array
-                        if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
-                            for(var i = 0; i < grassArray.length; i++) {
-                               if(slot[0] == grassArray[i].x && slot[1] == grassArray[i].y) {
-                                 grassArray.splice(i, 1);
+                        if(global.matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
+                            for(var i = 0; i < global.grassArray.length; i++) {
+                               if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                                 global.grassArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                        else if(matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
-                            for(var i = 0; i < grassEaterArray.length; i++) {
-                               if(slot[0] == grassEaterArray[i].x && slot[1] == grassEaterArray[i].y) {
-                                 grassEaterArray.splice(i, 1);
+                        else if(global.matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
+                            for(var i = 0; i < global.grassEaterArray.length; i++) {
+                               if(slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
+                                 global.grassEaterArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                        else if(matrix[slot[1]][slot[0]] == 3){    // is predator -- remove
-                            for(var i = 0; i < predatorArray.length; i++) {
-                               if(slot[0] == predatorArray[i].x && slot[1] == predatorArray[i].y) {
-                                 predatorArray.splice(i, 1);
+                        else if(global.matrix[slot[1]][slot[0]] == 3){    // is predator -- remove
+                            for(var i = 0; i < global.predatorArray.length; i++) {
+                               if(slot[0] == global.predatorArray[i].x && slot[1] == global.predatorArray[i].y) {
+                                 global.predatorArray.splice(i, 1);
                                  break;
                                 }
                             }
                         }
-                    matrix[slot[1]][slot[0]] = 4;
+                    global.matrix[slot[1]][slot[0]] = 4;
                     }
                 }
                 
@@ -108,11 +108,21 @@ module.exports = class fire{
         else if(this.count >= 5){     // clean the area with fire at the end
             for(var e in this.toRemove){
                 var slot = this.toRemove[e];
-                matrix[slot[1]][slot[0]] = 0;
+                global.matrix[slot[1]][slot[0]] = 0;
             }
-            matrix[fireArray[0].y][fireArray[0].x] = 0;
-            fireArray = [];  // empty fireArray
+            global.matrix[global.fireArray[0].y][global.fireArray[0].x] = 0;
+            global.fireArray = [];  // empty global.fireArray
         }
         this.count++;  
     }
 }
+	function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
+        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
+            var index = Math.floor(Math.random() * arguments[0].length);
+            return arguments[0][index];
+        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
+			var max = arguments[1] - arguments[0];
+			var min = arguments[0];
+			return Math.round(Math.random() * max + min);
+		}
+    }

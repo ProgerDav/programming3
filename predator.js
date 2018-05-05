@@ -32,9 +32,9 @@ module.exports = class predator extends Main{
             this.y = slot[1];
             this.energy = 5;
             matrix[slot[1]][slot[0]] = 3;
-            for (var i = 0; i < grassEaterArray.length; i++) {
-                if (slot[0] == grassEaterArray[i].x && slot[1] == grassEaterArray[i].y) {
-                    grassEaterArray.splice(i, 1);
+            for (var i = 0; i < global.grassEaterArray.length; i++) {
+                if (slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
+                    global.grassEaterArray.splice(i, 1);
                     break;
                 }
             }
@@ -43,9 +43,9 @@ module.exports = class predator extends Main{
             var slot = random(this.findSlots(0).concat(this.findSlots(1)));
             if (slot) {
                 if(matrix[slot[1]][slot[0]] == 1){
-                    for (var i = 0; i < grassArray.length; i++) {
-                        if (slot[0] == grassArray[i].x && slot[1] == grassArray[i].y) {
-                            grassArray.splice(i, 1);
+                    for (var i = 0; i < global.grassArray.length; i++) {
+                        if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                            global.grassArray.splice(i, 1);
                              break;
                         }
                     }
@@ -60,9 +60,9 @@ module.exports = class predator extends Main{
     }
 	death() {
         if (this.energy <= 0) {
-			for (var i = 0; i < predatorArray.length; i++) {
-				if (predatorArray[i].x == this.x && predatorArray[i].y == this.y) {
-					predatorArray.splice(i, 1);
+			for (var i = 0; i < global.predatorArray.length; i++) {
+				if (global.predatorArray[i].x == this.x && global.predatorArray[i].y == this.y) {
+					global.predatorArray.splice(i, 1);
 					break;
 				}
 			}
@@ -71,3 +71,13 @@ module.exports = class predator extends Main{
         this.energy--;
     }
 }
+	function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
+        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
+            var index = Math.floor(Math.random() * arguments[0].length);
+            return arguments[0][index];
+        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
+			var max = arguments[1] - arguments[0];
+			var min = arguments[0];
+			return Math.round(Math.random() * max + min);
+		}
+    }

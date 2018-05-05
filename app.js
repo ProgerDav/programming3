@@ -15,12 +15,12 @@ http.listen(3000, function () {
 });
 
 
-var grassArray = [];
-var grassEaterArray = [];
-var predatorArray = [];
-var humanArray = [];
-var fireArray = [];
-/*var matrix = [    //xotakerner@ ev gishatichner@ stugox matric -- piti uten xoter@ bazmanan heto satken (hnarhavor e cnvi gishatich)
+global.grassArray = [];
+global.grassEaterArray = [];
+global.predatorArray = [];
+global.humanArray = [];
+global.fireArray = [];
+/*global.matrix = [    //xotakerner@ ev gishatichner@ stugox matric -- piti uten xoter@ bazmanan heto satken (hnarhavor e cnvi gishatich)
 		[1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
 		[0, 2, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
 		[1, 0, 1, 1, 2, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -28,8 +28,8 @@ var fireArray = [];
 		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	]*/
 function getRandomMatrix() {
-    var n = 10;  // y arancq
-    var m = 20; // x arancq
+    var n = 40;  // y arancq
+    var m = 60; // x arancq
     var percent1 = 30;
     var percent2 = 2;
     var greenNumber = parseInt(n * m * percent1 / 100);
@@ -80,6 +80,8 @@ function getRandomMatrix() {
     }
     return matrix;
 }
+	global.matrix = getRandomMatrix();
+
     // get all the character modules
     var Grass = require("./grass.js");
     var grassEater = require("./grassEater.js");
@@ -87,11 +89,15 @@ function getRandomMatrix() {
     var human = require("./human.js");
     var fire = require("./fire.js");
 
-    /*function random(array) {  // there is no p5.js on server side so need to replace all it's functions
-        if (Array.isArray(array)) {
-            var index = Math.floor(Math.random() * array.length);
-            return array[index];
-        }
+    function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
+        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
+            var index = Math.floor(Math.random() * arguments[0].length);
+            return arguments[0][index];
+        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
+			var max = arguments[1] - arguments[0];
+			var min = arguments[0];
+			return Math.round(Math.random() * max + min);
+		}
     }
 
 
@@ -99,51 +105,49 @@ function getRandomMatrix() {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
                 var xot = new Grass(x, y, 1);
-                grassArray.push(xot);
+                global.grassArray.push(xot);
             }
             else if (matrix[y][x] == 2) {
                 var xotaker = new grassEater(x, y, 2);
-                grassEaterArray.push(xotaker);
+                global.grassEaterArray.push(xotaker);
             }
             else if (matrix[y][x] == 3) {
                 var gishatich = new predator(x, y, 3);
-                predatorArray.push(gishatich);
+                global.predatorArray.push(gishatich);
             }
             else if (matrix[y][x] == 7) {
                 var mard = new human(x, y);
-                humanArray.push(mard);
+                global.humanArray.push(mard);
             }
         }
-    }*/
+    }
 
-/*function drawInfo(){
-	if (fireArray[0]) {
-        fireArray[0].spread();
+function drawInfo(){
+	if (global.fireArray[0]) {
+        global.fireArray[0].spread();
     }
     
-    if(humanArray[0]){
-        humanArray[0].move();
+    if(global.humanArray[0]){
+        global.humanArray[0].move();
     }
 	
-    for (var j in predatorArray) {
-        predatorArray[j].moveAndEat();
+    for (var j in global.predatorArray) {
+        global.predatorArray[j].moveAndEat();
     }
 
-    for (var e in grassEaterArray) {
-        grassEaterArray[e].moveAndEat();
+    for (var e in global.grassEaterArray) {
+        global.grassEaterArray[e].moveAndEat();
     }
 
-    for (var i in grassArray) {
-        grassArray[i].multiplyF();
+    for (var i in global.grassArray) {
+        global.grassArray[i].multiplyF();
     }
-
-	console.log(matrix);
 }
-setInterval(drawInfo, 1000);*/
+setInterval(drawInfo, 200);
 
 io.on('connection', function (socket) {
     console.log('a user connected');
     setInterval(function () {
-        socket.emit("display new matrix", getRandomMatrix());
+        socket.emit("display new matrix", global.matrix);
     }, 200)
 });

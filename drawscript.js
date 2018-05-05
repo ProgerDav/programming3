@@ -1,12 +1,7 @@
 
 var socket = io.connect('http://localhost:3000'); // connect 
 
-socket.on("send image", function (data) {
-    matrix = data;
-})
-
 var side = 20;
-
 
 function setup() {
     frameRate(4);
