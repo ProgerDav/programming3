@@ -24,7 +24,7 @@ module.exports = class predator extends Main{
         return found;
     }
 	moveAndEat() {
-        var aviableSlots = this.findSlots(2);  //eat function part --> grassEater detected
+        var aviableSlots = this.findSlots(2).concat(this.findSlots(2.5));  //eat function part --> grassEater detected
         if (aviableSlots[0]) {
             var slot = random(aviableSlots);
             matrix[this.y][this.x] = 0;

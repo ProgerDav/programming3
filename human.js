@@ -41,7 +41,7 @@ module.exports = class human{
                     }
                 }
             }
-            else if(global.matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
+            else if(global.matrix[slot[1]][slot[0]] == 2 || global.matrix[slot[1]][slot[0]] == 2.5){    // is grassEater -- remove
                 for(var i = 0; i < global.grassEaterArray.length; i++) {
                    if(slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
                      global.grassEaterArray.splice(i, 1);
@@ -120,7 +120,7 @@ module.exports = class human{
                     }
                 }
             }
-            else if(global.matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
+            else if(global.matrix[slot[1]][slot[0]] == 2 || global.matrix[slot[1]][slot[0]] == 2.5){    // is grassEater -- remove
                 for(var i = 0; i < global.grassEaterArray.length; i++) {
                     if(slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
                         global.grassEaterArray.splice(i, 1);

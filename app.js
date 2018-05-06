@@ -10,8 +10,8 @@ app.get('/', function (req, res) {
     res.redirect('/index.html');
 });
 
-http.listen(3000, function () {
-    console.log('listening on *:3000');
+http.listen(8080, function () {
+    console.log('listening on *:8080');
 });
 
 
@@ -108,7 +108,9 @@ function getRandomMatrix() {
                 global.grassArray.push(xot);
             }
             else if (matrix[y][x] == 2) {
-                var xotaker = new grassEater(x, y, 2);
+                var rand = Math.round(Math.random()) / 2; 
+                var xotaker = new grassEater(x, y, 2, rand);
+                matrix[y][x] += rand;
                 global.grassEaterArray.push(xotaker);
             }
             else if (matrix[y][x] == 3) {
@@ -123,10 +125,15 @@ function getRandomMatrix() {
     }
 
 function drawInfo(){
+
+    for (var i in global.grassArray) {
+        global.grassArray[i].multiplyF();
+    }
+
 	if (global.fireArray[0]) {
         global.fireArray[0].spread();
     }
-    
+
     if(global.humanArray[0]){
         global.humanArray[0].move();
     }
@@ -138,16 +145,14 @@ function drawInfo(){
     for (var e in global.grassEaterArray) {
         global.grassEaterArray[e].moveAndEat();
     }
-
-    for (var i in global.grassArray) {
-        global.grassArray[i].multiplyF();
-    }
 }
-setInterval(drawInfo, 200);
+
 
 io.on('connection', function (socket) {
     console.log('a user connected');
     setInterval(function () {
         socket.emit("display new matrix", global.matrix);
-    }, 200)
+        drawInfo();
+        //console.log(global.grassEaterArray.length);
+    }, 500)
 });

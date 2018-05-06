@@ -1,10 +1,12 @@
 module.exports = class Main{
-	constructor(x, y, index){
+	constructor(x, y, index, gender){
         this.x = x;
         this.y = y;
         this.count = 0;
         this.energy = 5;
         this.directions = [];
+        this.gender = (gender == 0 ? "male" : "female");
+        this.genderNum = (this.gender == "male" ? 0 : 0.5);
     }
 	findSlots(identifier) {
         this.directions = [
