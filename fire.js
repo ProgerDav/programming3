@@ -83,7 +83,7 @@ module.exports = class fire{
                                 }
                             }
                         }
-                        else if(global.matrix[slot[1]][slot[0]] == 2){    // is grassEater -- remove
+                        else if(global.matrix[slot[1]][slot[0]] == 2 || global.matrix[slot[1]][slot[0]] == 2.5){    // is grassEater -- remove
                             for(var i = 0; i < global.grassEaterArray.length; i++) {
                                if(slot[0] == global.grassEaterArray[i].x && slot[1] == global.grassEaterArray[i].y) {
                                  global.grassEaterArray.splice(i, 1);
@@ -116,13 +116,4 @@ module.exports = class fire{
         this.count++;  
     }
 }
-	function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
-        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
-            var index = Math.floor(Math.random() * arguments[0].length);
-            return arguments[0][index];
-        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
-			var max = arguments[1] - arguments[0];
-			var min = arguments[0];
-			return Math.round(Math.random() * max + min);
-		}
-    }
+	var random = require("./random.js");

@@ -25,6 +25,11 @@ module.exports = class grassEater extends Main {
         return found;
     }
     moveAndEat() {
+        if(global.weather == "spring"){
+            this.multiply_interval = 8;
+        }else{
+            this.multiply_interval = 6;
+        }
         this.multiplyF();
         var aviableSlots = this.findSlots(1);  //eat function part --> grass detected
         if (aviableSlots[0]) {
@@ -53,45 +58,80 @@ module.exports = class grassEater extends Main {
         }
     }
     multiplyF() {
-        if (this.count >= 4) {
-            if (this.gender == "male") {
-                var oppositeGender = random(this.findSlots(2.5));
-                if(oppositeGender){
-                    var slot = random(this.findSlots(0).concat(this.findSlots(1)));
-                    var chance = [true, true, true, true, false];
-                    var randomGender = Math.round(Math.random()) / 2;
-                    var genotip = random(chance);
-                    if (genotip) {     // normal multiply
-                        if (global.matrix[slot[1]][slot[0]] == 1) {        // if grass -- remove
-                            for (var i = 0; i < global.grassArray.length; i++) {
-                                if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
-                                    global.grassArray.splice(i, 1);
-                                    break;
-                                }
+        if(global.weather == "spring"){
+            if (this.count >= 8) {
+                var slot = random(this.findSlots(0).concat(this.findSlots(1)));
+                var chance = [true, true, true, true, true, true, true, true, false];
+                var genotip = random(chance);
+                if (genotip) {     // normal multiply
+                    if(global.matrix[slot[1]][slot[0]] == 1){        // if grass -- remove
+                        for(var i = 0; i < global.grassArray.length; i++) {
+                            if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                            global.grassArray.splice(i, 1);
+                            break;
                             }
                         }
-                        var eater = new grassEater(slot[0], slot[1], 2, randomGender);
-                        global.grassEaterArray.push(eater);
-                        global.matrix[slot[1]][slot[0]] = 2 + randomGender;
                     }
-                    else {    // an predator
-                        if (global.matrix[slot[1]][slot[0]] == 1) {        // is grass -- remove
-                            for (var i = 0; i < global.grassArray.length; i++) {
-                                if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
-                                    global.grassArray.splice(i, 1);
-                                    break;
-                                }
+                    var eater = new grassEater(slot[0], slot[1], 2);
+                    global.grassEaterArray.push(eater);
+                    global.matrix[slot[1]][slot[0]] = 2; 
+                }
+                else {    // an predator
+                    if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
+                        for(var i = 0; i < global.grassArray.length; i++) {
+                            if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                            global.grassArray.splice(i, 1);
+                            break;
                             }
                         }
-                        var mutant = new predator(slot[0], slot[1], 3);
-                        global.predatorArray.push(mutant);
-                        global.matrix[slot[1]][slot[0]] = 3;
                     }
-                    this.count = 0;
+                    var mutant = new predator(slot[0], slot[1], 3);
+                    global.predatorArray.push(mutant);
+                    global.matrix[slot[1]][slot[0]] = 3;
+                }
+                this.count = 0;
+            }
+        }else{
+            if (this.count >= this.multiply_interval) {
+                if (this.gender == "male") {
+                    var oppositeGender = random(this.findSlots(2.5));
+                    if(oppositeGender){
+                        var slot = random(this.findSlots(0).concat(this.findSlots(1)));
+                        var chance = [true, true, true, true, false];
+                        var randomGender = Math.round(Math.random()) / 2;
+                        var genotip = random(chance);
+                        if (genotip) {     // normal multiply
+                            if (global.matrix[slot[1]][slot[0]] == 1) {        // if grass -- remove
+                                for (var i = 0; i < global.grassArray.length; i++) {
+                                    if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                                        global.grassArray.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                            }
+                            var eater = new grassEater(slot[0], slot[1], 2, randomGender);
+                            global.grassEaterArray.push(eater);
+                            global.matrix[slot[1]][slot[0]] = 2 + randomGender;
+                        }
+                        else {    // an predator
+                            if (global.matrix[slot[1]][slot[0]] == 1) {        // is grass -- remove
+                                for (var i = 0; i < global.grassArray.length; i++) {
+                                    if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+                                        global.grassArray.splice(i, 1);
+                                        break;
+                                    }
+                                }
+                            }
+                            var mutant = new predator(slot[0], slot[1], 3);
+                            global.predatorArray.push(mutant);
+                            global.matrix[slot[1]][slot[0]] = 3;
+                        }
+                        this.count = 0;
+                    }
                 }
             }
-        }
          this.count++;
+        }
     }
     death() {
         if (this.energy <= 0) {
@@ -107,13 +147,4 @@ module.exports = class grassEater extends Main {
     }
 }
 
-function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
-    if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
-        var index = Math.floor(Math.random() * arguments[0].length);
-        return arguments[0][index];
-    } else if (typeof arguments[0] == 'number' && typeof arguments[1] == 'number') { // return random number from set interval
-        var max = arguments[1] - arguments[0];
-        var min = arguments[0];
-        return Math.round(Math.random() * max + min);
-    }
-}
+var random = require("./random.js");

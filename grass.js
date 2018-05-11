@@ -3,6 +3,13 @@ module.exports = class Grass extends Main{
 	constructor(x, y, index){
 		super(x, y, index);
 		this.multiply = 0;
+        if(global.weather == "summer"){
+            this.multiply_interval = 12;
+        }else if(global.weather == "spring" || global.weather == "autumn"){
+            this.multiply_interval = 8;
+        }else if(global.weather == "winter"){
+            this.multiply_interval = 16;
+        }
 	}
 	findSlots(identifier) {
         this.directions = [
@@ -28,9 +35,17 @@ module.exports = class Grass extends Main{
         return found;
     }
 	multiplyF() {
+        if(global.weather == "summer"){
+            this.multiply_interval = 15;
+        }else if(global.weather == "spring" || global.weather == "autumn"){
+            this.multiply_interval = 10;
+        }else if(global.weather == "winter"){
+            this.multiply_interval = 30;
+        }
+        console.log(this.multiply_interval);
         this.multiply++;
         var norVandak = random(this.findSlots(0));
-        if (this.multiply >= 12 && norVandak) {
+        if (this.multiply >= this.multiply_interval && norVandak) {
             var norXot = new Grass(norVandak[0], norVandak[1]);
             global.grassArray.push(norXot);
             global.matrix[norVandak[1]][norVandak[0]] = 1;
@@ -38,13 +53,4 @@ module.exports = class Grass extends Main{
         }
     }
 }
-	function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
-        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
-            var index = Math.floor(Math.random() * arguments[0].length);
-            return arguments[0][index];
-        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
-			var max = arguments[1] - arguments[0];
-			var min = arguments[0];
-			return Math.round(Math.random() * max + min);
-		}
-    }
+	var random = require("./random.js");

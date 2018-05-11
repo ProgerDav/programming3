@@ -10,8 +10,8 @@ app.get('/', function (req, res) {
     res.redirect('/index.html');
 });
 
-http.listen(8080, function () {
-    console.log('listening on *:8080');
+http.listen(3000, function () {
+    console.log('listening on *:3000');
 });
 
 
@@ -20,6 +20,9 @@ global.grassEaterArray = [];
 global.predatorArray = [];
 global.humanArray = [];
 global.fireArray = [];
+global.weather = "summer";
+var count = 0;
+var weather_interval = 30;
 /*global.matrix = [    //xotakerner@ ev gishatichner@ stugox matric -- piti uten xoter@ bazmanan heto satken (hnarhavor e cnvi gishatich)
 		[1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1],
 		[0, 2, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -89,16 +92,7 @@ function getRandomMatrix() {
     var human = require("./human.js");
     var fire = require("./fire.js");
 
-    function random(arg1, arg2) {  // there is no p5.js on server side so need to replace all it's functions
-        if (Array.isArray(arguments[0])) {  //in case argument is a massive -- return random element from it;
-            var index = Math.floor(Math.random() * arguments[0].length);
-            return arguments[0][index];
-        }else if(typeof arguments[0] == 'number' && typeof arguments[1] == 'number'){ // return random number from set interval
-			var max = arguments[1] - arguments[0];
-			var min = arguments[0];
-			return Math.round(Math.random() * max + min);
-		}
-    }
+    var random = require("./random.js");
 
 
     for (var y = 0; y < matrix.length; y++) {
@@ -151,8 +145,21 @@ function drawInfo(){
 io.on('connection', function (socket) {
     console.log('a user connected');
     setInterval(function () {
-        socket.emit("display new matrix", global.matrix);
+        socket.emit("display new matrix", {matrix: global.matrix, weather: global.weather});
         drawInfo();
-        //console.log(global.grassEaterArray.length);
+        if(count < weather_interval){
+           weather = "summer";
+        }else if(count >= weather_interval && count < 2*weather_interval){
+            weather = "autumn";
+        }else if (count >= 2*weather_interval && count < 3*weather_interval){
+            weather = "winter";
+        }else if(count >= 3*weather_interval && count < 4*weather_interval){
+            weather = "spring";
+        }else{
+            weather = "summer";
+            count = 0;
+        }
+         count++;
+        //console.log(weather);
     }, 500)
 });
