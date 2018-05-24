@@ -36,12 +36,14 @@ module.exports = class Grass extends Main{
     }
 	multiplyF() {
         if(global.weather == "summer"){
-            this.multiply_interval = 15;
-        }else if(global.weather == "spring" || global.weather == "autumn"){
-            this.multiply_interval = 10;
+            this.multiply_interval = 13;
+        }else if(global.weather == "spring"){
+            this.multiply_interval = 8;
         }else if(global.weather == "winter"){
             this.multiply_interval = 30;
-        }
+        }else if(global.weather == "autumn"){
+			this.multiply_interval = 8;
+		}
         console.log(this.multiply_interval);
         this.multiply++;
         var norVandak = random(this.findSlots(0));

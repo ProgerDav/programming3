@@ -64,6 +64,7 @@ module.exports = class grassEater extends Main {
                 var chance = [true, true, true, true, true, true, true, true, false];
                 var genotip = random(chance);
                 if (genotip) {     // normal multiply
+					var randomGender = Math.round(Math.random()) / 2;
                     if(global.matrix[slot[1]][slot[0]] == 1){        // if grass -- remove
                         for(var i = 0; i < global.grassArray.length; i++) {
                             if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
@@ -72,9 +73,9 @@ module.exports = class grassEater extends Main {
                             }
                         }
                     }
-                    var eater = new grassEater(slot[0], slot[1], 2);
+                    var eater = new grassEater(slot[0], slot[1], 2, randomGender);
                     global.grassEaterArray.push(eater);
-                    global.matrix[slot[1]][slot[0]] = 2; 
+                    global.matrix[slot[1]][slot[0]] = 2+randomGender; 
                 }
                 else {    // an predator
                     if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
@@ -130,8 +131,8 @@ module.exports = class grassEater extends Main {
                     }
                 }
             }
-         this.count++;
         }
+		this.count++;
     }
     death() {
         if (this.energy <= 0) {

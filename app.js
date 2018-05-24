@@ -141,6 +141,13 @@ function drawInfo(){
     }
 }
 
+function gameCheck(){
+	if(global.grassArray.length == 0 || global.grassEaterArray.length == 0){
+		return false;
+	}else{
+		return true;
+	}
+}
 
 io.on('connection', function (socket) {
     console.log('a user connected');
