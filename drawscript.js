@@ -3,6 +3,10 @@ var socket = io.connect('http://localhost:3000'); // connect
 
 var side = 20;
 
+function preload(){
+    img_exp = loadImage('exp.gif');
+}
+
 function setup() {
     frameRate(4);
     noStroke();
@@ -38,13 +42,20 @@ socket.on("display new matrix", function (data) {
                 fill('black');
             }
             else if (matrix[y][x] == 4) {
-                fill("red");
+                //image(img_exp, x*side, y*side);
+                fill('red');
             }
             else if (matrix[y][x] == 7) {
                 fill("#404efd");
             }
+            else if (matrix[y][x] == 10) {
+                fill("#404efd");
+            }
+            else if (matrix[y][x] == 404) {
+                fill("#000");
+            }
             else {
-                    fill('#acacac');
+                fill('#acacac');
             }
             rect(x * side, y * side, side, side);
         }

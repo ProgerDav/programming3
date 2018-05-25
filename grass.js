@@ -44,7 +44,6 @@ module.exports = class Grass extends Main{
         }else if(global.weather == "autumn"){
 			this.multiply_interval = 8;
 		}
-        console.log(this.multiply_interval);
         this.multiply++;
         var norVandak = random(this.findSlots(0));
         if (this.multiply >= this.multiply_interval && norVandak) {

@@ -81,6 +81,17 @@ function getRandomMatrix() {
             continue;
         }
     }
+    for (var h = 0; h < 1; h++) {    // add a hunter in a random empty slot
+        var x = Math.floor(Math.random() * matrix[0].length);
+        var y = Math.floor(Math.random() * matrix.length);
+        if (matrix[y][x] == 0) {      //check if the slot is empty
+            matrix[y][x] = 10;
+        }
+        else {         // if not try once more 
+            h--;
+            continue;
+        }
+    }
     return matrix;
 }
 	global.matrix = getRandomMatrix();
@@ -91,9 +102,10 @@ function getRandomMatrix() {
     var predator = require("./predator.js");
     var human = require("./human.js");
     var fire = require("./fire.js");
-
+    var superPredator = require('./class.superPredator.js');
     var random = require("./random.js");
-
+    global.humanHealth = 5;
+    global.superPredatorHealth = 5;
 
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
@@ -114,6 +126,9 @@ function getRandomMatrix() {
             else if (matrix[y][x] == 7) {
                 var mard = new human(x, y);
                 global.humanArray.push(mard);
+            }
+            else if (matrix[y][x] == 10) {
+                var superPredator = new superPredator(x, y, 10);
             }
         }
     }
@@ -139,6 +154,9 @@ function drawInfo(){
     for (var e in global.grassEaterArray) {
         global.grassEaterArray[e].moveAndEat();
     }
+
+    superPredator.specialEvent();
+
 }
 
 function gameCheck(){
