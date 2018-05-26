@@ -91,13 +91,17 @@ module.exports = class fire{
                                 }
                             }
                         }
-                        else if(global.matrix[slot[1]][slot[0]] == 3){    // is predator -- remove
+                        else if(global.matrix[slot[1]][slot[0]] == 3 || global.matrix[slot[1]][slot[0]] == 3.5){    // is predator -- remove
                             for(var i = 0; i < global.predatorArray.length; i++) {
                                if(slot[0] == global.predatorArray[i].x && slot[1] == global.predatorArray[i].y) {
                                  global.predatorArray.splice(i, 1);
                                  break;
                                 }
                             }
+                        }
+                        else if(global.matrix[slot[1]][slot[0]] == 10){    // is predator -- remove
+                            global.superPredatorHealth--;
+                            console.log(global.superPredatorHealth, global.humanHealth);
                         }
                     global.matrix[slot[1]][slot[0]] = 4;
                     }

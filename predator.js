@@ -24,7 +24,7 @@ module.exports = class predator extends Main{
         return found;
     }
 	moveAndEat() {
-        if(global.weather != "spring"){
+        if(global.weather != "winter"){ // in winter they sleep untill the spring comes
             var aviableSlots = this.findSlots(2).concat(this.findSlots(2.5));  //eat function part --> grassEater detected
             if (aviableSlots[0]) {
                 var slot = random(aviableSlots);

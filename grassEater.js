@@ -101,7 +101,7 @@ module.exports = class grassEater extends Main {
                         var chance = [true, true, true, true, false];
                         var randomGender = Math.round(Math.random()) / 2;
                         var genotip = random(chance);
-                        if (genotip) {     // normal multiply
+                        if (genotip && slot) {     // normal multiply
                             if (global.matrix[slot[1]][slot[0]] == 1) {        // if grass -- remove
                                 for (var i = 0; i < global.grassArray.length; i++) {
                                     if (slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {

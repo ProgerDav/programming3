@@ -1,10 +1,14 @@
 
 var socket = io.connect('http://localhost:3000'); // connect 
 
-var side = 20;
+var sideInp = document.getElementById('rectSide');
+var grassPercentInp = document.getElementById('rectSide');
+var grassEaterPercentInp = document.getElementById('rectSide');
+var mWidthInp = document.getElementById('rectSide');
+var mHeightInp = document.getElementById('rectSide');
 
-function preload(){
-    img_exp = loadImage('exp.gif');
+document.getElementById('submit-btn').onclick = function(){
+    socket.emit('matrix data', { side:  })
 }
 
 function setup() {
@@ -38,6 +42,11 @@ socket.on("display new matrix", function (data) {
             else if (matrix[y][x] == 2.5) {
                 fill('orange');
             }
+            else if (matrix[y][x] == 3.5) {
+                fill('white');
+               // ellipse(x * side, y * side, side, side);
+                //fill('black');
+            }
             else if (matrix[y][x] == 3) {
                 fill('black');
             }
@@ -49,10 +58,10 @@ socket.on("display new matrix", function (data) {
                 fill("#404efd");
             }
             else if (matrix[y][x] == 10) {
-                fill("#404efd");
+                fill("#563d7c");
             }
-            else if (matrix[y][x] == 404) {
-                fill("#000");
+            else if (matrix[y][x] == 11) {
+                fill("#563d7c");
             }
             else {
                 fill('#acacac');

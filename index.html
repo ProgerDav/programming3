@@ -8,6 +8,14 @@
 	   </style>		
 	 </head>
    <body>
-		<h1 id="weather_text" style='margin: auto'></h1>
+		<h1 id="weather_text"></h1>
+    <div class="form-container">
+      <label>Width of matrix: <input type="number" placeholder="" max=60 min=20 placeholder="20" id='mw' /></label>
+      <label>Height of matrix: <input type="number" placeholder="" max=40 min=20 placeholder="20" id='mh' /></label>
+      <label>Percentage of grass in matrix: <input type="number" placeholder="" max=60 min=20 placeholder="20" id='grassP' /></label>
+      <label>Percentage of grassEater in matrix: <input type="number" placeholder="" max=60 min=20 placeholder="20" id='grassEaterP' /></label>
+      <label>Side of one rectangle: <input type="number" placeholder="" max=60 min=10 placeholder="20" id='rectSide' /></label>
+      <button id="submit-btn">Create The Matrix</button>
+    </div>
    </body>
 </html>

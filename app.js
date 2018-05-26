@@ -120,7 +120,9 @@ function getRandomMatrix() {
                 global.grassEaterArray.push(xotaker);
             }
             else if (matrix[y][x] == 3) {
-                var gishatich = new predator(x, y, 3);
+                var rand = Math.round(Math.random()) / 2; 
+                var gishatich = new predator(x, y, 3, rand);
+                matrix[y][x] += rand;
                 global.predatorArray.push(gishatich);
             }
             else if (matrix[y][x] == 7) {
@@ -155,7 +157,7 @@ function drawInfo(){
         global.grassEaterArray[e].moveAndEat();
     }
 
-    superPredator.specialEvent();
+    superPredator.move();
 
 }
 
@@ -186,5 +188,5 @@ io.on('connection', function (socket) {
         }
          count++;
         //console.log(weather);
-    }, 500)
+    }, 800)
 });
