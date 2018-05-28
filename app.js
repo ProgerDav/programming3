@@ -3,6 +3,7 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var fs = require("fs");
 
 app.use(express.static('.'));
 
@@ -30,7 +31,7 @@ var weather_interval = 30;
 		[0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
 		[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	]*/
-function getRandomMatrix() {
+function getRandomMatrix() {   // wrote this function long ago so didn't want to dirty my hands optimizing this pseudocode =(
     var n = 40;  // y arancq
     var m = 60; // x arancq
     var percent1 = 30;
@@ -70,7 +71,7 @@ function getRandomMatrix() {
         }
     }
 
-    for (var e = 0; e < humanNumber; e++) {    // add a hunter in a random empty slot
+    for (var e = 0; e < humanNumber; e++) {    // add a wizard in a random empty slot
         var x = Math.floor(Math.random() * matrix[0].length);
         var y = Math.floor(Math.random() * matrix.length);
         if (matrix[y][x] == 0) {      //check if the slot is empty
@@ -81,7 +82,7 @@ function getRandomMatrix() {
             continue;
         }
     }
-    for (var h = 0; h < 1; h++) {    // add a hunter in a random empty slot
+    for (var h = 0; h < 1; h++) {    // add a superPredator in a random empty slot
         var x = Math.floor(Math.random() * matrix[0].length);
         var y = Math.floor(Math.random() * matrix.length);
         if (matrix[y][x] == 0) {      //check if the slot is empty
@@ -104,24 +105,31 @@ function getRandomMatrix() {
     var fire = require("./fire.js");
     var superPredator = require('./class.superPredator.js');
     var random = require("./random.js");
-    global.humanHealth = 5;
-    global.superPredatorHealth = 5;
+    global.humanHealth = 1;
+    global.superPredatorHealth = 1;
+	var minuteCounter = 0;
+	global.totalGrassCounter = 0;
+	global.totalGrassEaterCounter = 0;
+	global.totalPredatorCounter = 0;
 
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1) {
                 var xot = new Grass(x, y, 1);
+				global.totalGrassCounter++;
                 global.grassArray.push(xot);
             }
             else if (matrix[y][x] == 2) {
                 var rand = Math.round(Math.random()) / 2; 
                 var xotaker = new grassEater(x, y, 2, rand);
                 matrix[y][x] += rand;
+				global.totalGrassEaterCounter++;
                 global.grassEaterArray.push(xotaker);
             }
             else if (matrix[y][x] == 3) {
                 var rand = Math.round(Math.random()) / 2; 
                 var gishatich = new predator(x, y, 3, rand);
+				global.totalPredatorCounter++;
                 matrix[y][x] += rand;
                 global.predatorArray.push(gishatich);
             }
@@ -141,6 +149,10 @@ function drawInfo(){
         global.grassArray[i].multiplyF();
     }
 
+	if(superPredator){
+		superPredator.move();
+	}	
+
 	if (global.fireArray[0]) {
         global.fireArray[0].spread();
     }
@@ -157,23 +169,38 @@ function drawInfo(){
         global.grassEaterArray[e].moveAndEat();
     }
 
-    superPredator.move();
-
 }
 
 function gameCheck(){
 	if(global.grassArray.length == 0 || global.grassEaterArray.length == 0){
-		return false;
+		return "The world needs more grass and grassEaters =(";
+	}else if(global.humanHealth <= 0){
+		return "The SuperPredator won";
+	}else if(global.superPredatorHealth <= 0){
+		return "The Human won";
 	}else{
-		return true;
+		return false;
 	}
 }
 
+
 io.on('connection', function (socket) {
     console.log('a user connected');
-    setInterval(function () {
+    var gameLoop = setInterval(function () {
         socket.emit("display new matrix", {matrix: global.matrix, weather: global.weather});
         drawInfo();
+		var bool = gameCheck();
+		if(bool){
+			socket.emit('game over', {text: bool, grassNum: global.totalGrassCounter, grassEaterNum: global.totalGrassEaterCounter, predatorNum: global.totalPredatorCounter++});
+			clearInterval(gameLoop);
+			var obj = {
+				"totalGrassNumber": global.totalGrassCounter,
+				"totalGrassEaterNumber": global.totalGrassEaterCounter,
+				"totalPredatorNumber": global.totalPredatorCounter
+			}
+			var json = JSON.stringify(obj);
+			fs.writeFileSync("stats.json", json);
+		}
         if(count < weather_interval){
            weather = "summer";
         }else if(count >= weather_interval && count < 2*weather_interval){
@@ -187,6 +214,9 @@ io.on('connection', function (socket) {
             count = 0;
         }
          count++;
+		 var data = [minuteCounter, global.grassArray.length] //Convert to sring;
+		 socket.emit('display new chart', data);
+		 minuteCounter += 0.8;
         //console.log(weather);
     }, 800)
 });

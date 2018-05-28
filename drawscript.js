@@ -1,23 +1,19 @@
 
 var socket = io.connect('http://localhost:3000'); // connect 
 
-var sideInp = document.getElementById('rectSide');
-var grassPercentInp = document.getElementById('rectSide');
-var grassEaterPercentInp = document.getElementById('rectSide');
-var mWidthInp = document.getElementById('rectSide');
-var mHeightInp = document.getElementById('rectSide');
+var side = 18;
+var w = 60;
+var h = 40;
+var overlay = document.getElementById("overlay");
+var center_text = document.getElementById("center_text");
 
-document.getElementById('submit-btn').onclick = function(){
-    socket.emit('matrix data', { side:  })
-}
 
 function setup() {
-    frameRate(4);
-    noStroke();
-    createCanvas(60 * side, 40 * side);
-    background('#acacac');
+	frameRate(4);
+	noStroke();
+	createCanvas(w * side, h * side);
+	background('#acacac');
 }
-
 
 socket.on("display new matrix", function (data) {
     background("#acacac");
@@ -69,4 +65,54 @@ socket.on("display new matrix", function (data) {
             rect(x * side, y * side, side, side);
         }
     }
+})
+
+var data_rows = [
+	['Minutes', 'Number of grass'],
+];
+socket.on("display new chart", function(data_row){
+	var div = document.getElementById('chart_div');
+	google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+	data_rows.push(data_row);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(data_rows);
+
+        var options = {
+          title: 'Matix Performance',
+          curveType: 'function',
+          legend: { position: 'bottom' }
+        };
+
+        var chart = new google.visualization.LineChart(div)
+
+        chart.draw(data, options);
+      }
+})
+
+socket.on("game over", function(data){
+	overlay.style.display = 'block';
+	center_text.innerHTML = data.text;
+	google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+	var gNum = data.grassNum;
+	var gENum = data.grassEaterNum;
+	var pNum = data.predatorNum;
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Total number of spawned characters', 'Number'],
+          ['Number of grass', gNum],
+          ['Number of grassEaters', gENum],
+		  ['Number of predators', pNum]
+        ]);
+
+        var options = {
+          title: 'Comperison of total numbers'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
 })

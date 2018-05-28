@@ -63,34 +63,38 @@ module.exports = class grassEater extends Main {
                 var slot = random(this.findSlots(0).concat(this.findSlots(1)));
                 var chance = [true, true, true, true, true, true, true, true, false];
                 var genotip = random(chance);
-                if (genotip) {     // normal multiply
-					var randomGender = Math.round(Math.random()) / 2;
-                    if(global.matrix[slot[1]][slot[0]] == 1){        // if grass -- remove
-                        for(var i = 0; i < global.grassArray.length; i++) {
-                            if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
-                            global.grassArray.splice(i, 1);
-                            break;
-                            }
-                        }
-                    }
-                    var eater = new grassEater(slot[0], slot[1], 2, randomGender);
-                    global.grassEaterArray.push(eater);
-                    global.matrix[slot[1]][slot[0]] = 2+randomGender; 
-                }
-                else {    // an predator
-                    if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
-                        for(var i = 0; i < global.grassArray.length; i++) {
-                            if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
-                            global.grassArray.splice(i, 1);
-                            break;
-                            }
-                        }
-                    }
-                    var mutant = new predator(slot[0], slot[1], 3);
-                    global.predatorArray.push(mutant);
-                    global.matrix[slot[1]][slot[0]] = 3;
-                }
-                this.count = 0;
+				if(slot){
+					if (genotip) {     // normal multiply
+						var randomGender = Math.round(Math.random()) / 2;
+						if(global.matrix[slot[1]][slot[0]] == 1){        // if grass -- remove
+							for(var i = 0; i < global.grassArray.length; i++) {
+								if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+								global.grassArray.splice(i, 1);
+								break;
+								}
+							}
+						}
+						var eater = new grassEater(slot[0], slot[1], 2, randomGender);
+						global.totalGrassEaterCounter++;
+						global.grassEaterArray.push(eater);
+						global.matrix[slot[1]][slot[0]] = 2+randomGender; 
+					}
+					else {    // an predator
+						if(matrix[slot[1]][slot[0]] == 1){        // is grass -- remove
+							for(var i = 0; i < global.grassArray.length; i++) {
+								if(slot[0] == global.grassArray[i].x && slot[1] == global.grassArray[i].y) {
+								global.grassArray.splice(i, 1);
+								break;
+								}
+							}
+						}
+						var mutant = new predator(slot[0], slot[1], 3);
+						global.totalPredatorCounter++;
+						global.predatorArray.push(mutant);
+						global.matrix[slot[1]][slot[0]] = 3;
+					}
+					this.count = 0;
+				}
             }
         }else{
             if (this.count >= this.multiply_interval) {
@@ -111,6 +115,7 @@ module.exports = class grassEater extends Main {
                                 }
                             }
                             var eater = new grassEater(slot[0], slot[1], 2, randomGender);
+							global.totalGrassEaterCounter++;
                             global.grassEaterArray.push(eater);
                             global.matrix[slot[1]][slot[0]] = 2 + randomGender;
                         }
@@ -124,6 +129,7 @@ module.exports = class grassEater extends Main {
                                 }
                             }
                             var mutant = new predator(slot[0], slot[1], 3);
+							global.totalPredatorCounter++;
                             global.predatorArray.push(mutant);
                             global.matrix[slot[1]][slot[0]] = 3;
                         }

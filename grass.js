@@ -48,6 +48,7 @@ module.exports = class Grass extends Main{
         var norVandak = random(this.findSlots(0));
         if (this.multiply >= this.multiply_interval && norVandak) {
             var norXot = new Grass(norVandak[0], norVandak[1]);
+			global.totalGrassCounter++;
             global.grassArray.push(norXot);
             global.matrix[norVandak[1]][norVandak[0]] = 1;
             this.multiply = 0;

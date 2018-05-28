@@ -71,7 +71,7 @@ module.exports = class superPredator {
     specialEvent() {
         this.shotInterval--;
         if (this.shotInterval <= 0) {
-            this.shotInterval = 20;
+            this.shotInterval = 10;
             var slots = this.findDiagonals1().concat(this.findDiagonals2());  // merge diagonal slots arrays
             for (var e in slots) {
                 var slot = slots[e];

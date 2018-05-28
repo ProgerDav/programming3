@@ -61,7 +61,7 @@ module.exports = class predator extends Main{
         }
     }
 	death() {
-        if (this.energy <= 0) {
+        if (this.energy <= -10) {
 			for (var i = 0; i < global.predatorArray.length; i++) {
 				if (global.predatorArray[i].x == this.x && global.predatorArray[i].y == this.y) {
 					global.predatorArray.splice(i, 1);

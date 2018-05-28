@@ -6,11 +6,7 @@ module.exports = class Main{
         this.directions = [];
         this.gender = (gender == 0 ? "male" : "female");
         this.genderNum = gender;
-        if(index == 3){ //predator
-            this.evergy = (this.gender == 'male' ? 25 : 5);
-        }else{         //grassEater
-            this.energy = 5;
-        }
+        this.energy = 5;
         if(global.weather == "spring"){
             this.multiply_interval = 1;
         }else{
